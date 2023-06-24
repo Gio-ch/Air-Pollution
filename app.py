@@ -15,15 +15,14 @@ def create_map_figure():
     fig = px.scatter_mapbox(air_quality_data, lat='lat', lon='lon', color='aqi', size='aqi',
                             hover_name='station_name', hover_data=['time'],
                             color_continuous_scale=px.colors.sequential.Plasma,
-                            zoom=10, height=600, width=800)
+                            zoom=10,  )
     fig.update_layout(mapbox_style='open-street-map', mapbox_zoom=10,
                       mapbox_center_lat=41.7151377, mapbox_center_lon=44.827096)
     return fig
 
 def create_pollutants_line_figure(selected_region='alexander-kazbegi ave.', start_date='2021-01-01', end_date='2023-06-01'):
     data = load_csv_data()
-    # Filter data for the selected region and date range
-    # filtered_data = data[(data['region'] == selected_region) & (data['date'] >= start_date) & (data['date'] <= end_date)].copy()
+    # Filter data for the selected region
     filtered_data = data[data['region'] == selected_region].copy()
     
     # Convert the date column to datetime
@@ -38,8 +37,7 @@ def create_pollutants_line_figure(selected_region='alexander-kazbegi ave.', star
     for col in ['pm25', 'pm10', 'o3', 'no2', 'so2', 'co']:
         filtered_data[col] = pd.to_numeric(filtered_data[col], errors='coerce')
         
-    
-
+    # Resample data to monthly level and calculate mean
     monthly_avg = filtered_data.resample('M').mean()
 
     # Creating line chart
@@ -53,8 +51,8 @@ def create_pollutants_line_figure(selected_region='alexander-kazbegi ave.', star
     # add line for average of all pollutants
     # fig.add_trace(go.Scatter(x=monthly_avg.index, y=monthly_avg.mean(axis=1),))
     
-    # Add title and labels
-    fig.update_layout(title='Monthly Average Pollutant Levels',
+    # Add title and labelstitle='Monthly Average Pollutant Levels',title='Monthly Average Pollutant Levels',
+    fig.update_layout(
                       xaxis_title='Month',
                       yaxis_title='Pollutant Levels',
                       margin=dict(l=100, r=100, t=100, b=100))
@@ -63,7 +61,6 @@ def create_pollutants_line_figure(selected_region='alexander-kazbegi ave.', star
 
 # Create charts
 map_figure = create_map_figure()
-# area_plot_figure = create_heatmap_figure()
 
 # Set the layout of the app
 app.layout = create_layout(map_figure)
