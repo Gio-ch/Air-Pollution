@@ -71,7 +71,6 @@ app.layout = create_layout(map_figure)
     [Input('region-dropdown', 'value',)]
 )
 def update_heatmap(selected_region):
-    print("update_heatmap called with:", selected_region)
     return create_pollutants_line_figure(selected_region)
 
 
