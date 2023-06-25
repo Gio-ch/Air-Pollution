@@ -9,6 +9,8 @@ from layout import create_layout
 # Initialize the Dash app
 app = dash.Dash(__name__)
 
+server = app.server
+
 # Function to create map plot
 def create_map_figure():
     air_quality_data = fetch_air_quality_data()
