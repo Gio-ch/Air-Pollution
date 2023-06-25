@@ -33,12 +33,11 @@ def create_pollutants_line_figure(selected_region='alexander-kazbegi ave.', star
     # Set the date column as the index
     filtered_data.set_index('date', inplace=True)
     
-    # drop values before start date
-    filtered_data = filtered_data[filtered_data.index >= start_date]
+    # drop values before start date and filter numeric columns
+    numeric_columns = ['pm25', 'pm10', 'o3', 'no2', 'so2', 'co']
+    filtered_data = filtered_data[numeric_columns][filtered_data.index >= start_date]
+    filtered_data = filtered_data.applymap(lambda x: pd.to_numeric(x, errors='coerce'))
 
-    for col in ['pm25', 'pm10', 'o3', 'no2', 'so2', 'co']:
-        filtered_data[col] = pd.to_numeric(filtered_data[col], errors='coerce')
-        
     # Resample data to monthly level and calculate mean
     monthly_avg = filtered_data.resample('M').mean()
 
