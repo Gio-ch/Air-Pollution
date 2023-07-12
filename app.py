@@ -20,7 +20,7 @@ def create_map_figure():
     # make the points biggeor on map
     fig = px.scatter_mapbox(air_quality_data, lat='lat', lon='lon', color='aqi',size='scale',
                             hover_name='station_name', hover_data=['time'],
-                            color_continuous_scale=px.colors.sequential.Plasma,
+                            color_continuous_scale='teal',
                             zoom=10,  )
     fig.update_layout(mapbox_style='open-street-map', mapbox_zoom=10,
                       mapbox_center_lat=41.7151377, mapbox_center_lon=44.827096)
