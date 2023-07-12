@@ -14,7 +14,11 @@ server = app.server
 # Function to create map plot
 def create_map_figure():
     air_quality_data = fetch_air_quality_data()
-    fig = px.scatter_mapbox(air_quality_data, lat='lat', lon='lon', color='aqi', size='aqi',
+    
+    air_quality_data['scale'] = 6
+
+    # make the points biggeor on map
+    fig = px.scatter_mapbox(air_quality_data, lat='lat', lon='lon', color='aqi',size='scale',
                             hover_name='station_name', hover_data=['time'],
                             color_continuous_scale=px.colors.sequential.Plasma,
                             zoom=10,  )
