@@ -3,9 +3,11 @@ import pandas as pd
 import os
 import glob
 from settings import URL
-from settings import DATASET_ID, TABLE_ID, PROJECT_ID, STAGING_TABLE_ID
+from settings import DATASET_ID, TABLE_ID, PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS
 from google.cloud import bigquery
+from google.oauth2 import service_account
 import time
+import json
 
 def load_daily_data(dataset_id='air_quality', table_id='quality_average_region', staging_table_id='staging_table') -> None:
     # Fetch the data from the API
@@ -134,7 +136,8 @@ def delete_table(dataset_id, table_id):
     print(f"Table {table_id} deleted.")
     
 def fetch_air_quality_data_bigquery(dataset_id=DATASET_ID, table_id=TABLE_ID) -> pd.DataFrame:
-    client = bigquery.Client()
+    # client = bigquery.Client()
+    client = create_bigquery_client()
 
     print(f"Fetching data from {dataset_id}.{table_id}")
     # Define the SQL query
@@ -146,6 +149,20 @@ def fetch_air_quality_data_bigquery(dataset_id=DATASET_ID, table_id=TABLE_ID) ->
     df = client.query(sql).to_dataframe()
 
     return df
+
+
+
+def create_bigquery_client():
+    # Get the service account key JSON string from the environment variable
+    service_account_info = json.loads(GOOGLE_APPLICATION_CREDENTIALS)
+
+    # Create credentials from the service account info
+    credentials = service_account.Credentials.from_service_account_info(service_account_info)
+
+    # Create a BigQuery client with the credentials
+    client = bigquery.Client(credentials=credentials, project=credentials.project_id)
+
+    return client
 
 def load_csv_data(directory='data') -> pd.DataFrame:
     """
