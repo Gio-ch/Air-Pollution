@@ -14,7 +14,6 @@ server = app.server
 # Function to create map plot
 def create_map_figure():
     air_quality_data = fetch_air_quality_data()
-    
     air_quality_data['scale'] = 6
 
     # make the points biggeor on map
