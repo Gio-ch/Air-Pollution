@@ -27,3 +27,5 @@ typing_extensions==4.6.3
 tzdata==2023.3
 urllib3==2.0.3
 Werkzeug==2.2.3
+db-dtypes
+google-cloud-bigquery
