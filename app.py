@@ -3,7 +3,7 @@ import dash
 import plotly.express as px
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output
-from data import fetch_air_quality_data, load_csv_data
+from data import fetch_air_quality_data_bigquery, load_csv_data
 from layout import create_layout
 
 # Initialize the Dash app
@@ -13,7 +13,7 @@ server = app.server
 
 # Function to create map plot
 def create_map_figure():
-    air_quality_data = fetch_air_quality_data()
+    air_quality_data = fetch_air_quality_data_bigquery()
     air_quality_data['scale'] = 6
 
     # make the points biggeor on map
