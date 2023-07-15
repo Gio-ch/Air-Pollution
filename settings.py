@@ -5,3 +5,4 @@ URL = f'https://api.waqi.info/v2/map/bounds?latlng=41.6203945,41.8434205,44.5967
 DATASET_ID = os.environ.get('DATASET_ID')
 TABLE_ID = os.environ.get('TABLE_ID')
 PROJECT_ID = os.environ.get('PROJECT_ID')
+GOOGLE_APPLICATION_CREDENTIALS = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
