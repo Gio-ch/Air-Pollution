@@ -77,7 +77,7 @@ def create_table(project_id, dataset_id, staging_table_id):
     print(f"Created table {table.project}.{table.dataset_id}.{table.table_id}")
     
 def store_data_in_bigquery(df, dataset_id, table_id) -> None:
-    client = bigquery.Client()
+    client = create_bigquery_client()
 
     # Convert the DataFrame to a BigQuery-compatible format
     df['time'] = df['time'].dt.tz_localize(None).astype(str)
@@ -98,7 +98,7 @@ def store_data_in_bigquery(df, dataset_id, table_id) -> None:
         raise SystemExit(f'Encountered errors while inserting rows: {errors}')
     
 def merge_data(dataset_id, table_id='quality_average_region', staging_table_id='staging_table'):
-    client = bigquery.Client()
+    client = create_bigquery_client()
 
     # Define the MERGE statement
     sql = f"""
@@ -114,7 +114,7 @@ def merge_data(dataset_id, table_id='quality_average_region', staging_table_id='
     client.query(sql).result()
 
 def clear_staging_table(dataset_id, staging_table_id='staging_table'):
-    client = bigquery.Client()
+    client = create_bigquery_client()
 
     # Define the DELETE statement
     sql = f"""
@@ -125,7 +125,8 @@ def clear_staging_table(dataset_id, staging_table_id='staging_table'):
     client.query(sql).result()
 
 def delete_table(dataset_id, table_id):
-    client = bigquery.Client()
+    client = create_bigquery_client()
+    # client = bigquery.Client()
 
     # Construct a full BigQuery table identifier
     table_ref = client.dataset(dataset_id).table(table_id)
