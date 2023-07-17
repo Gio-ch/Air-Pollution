@@ -51,7 +51,9 @@ def fetch_air_quality_data() -> pd.DataFrame:
     # store_data_in_bigquery(df, DATASET_ID, STAGING_TABLE_ID)
 
 def create_table(project_id, dataset_id, staging_table_id):
-    client = bigquery.Client()
+    
+    # client = bigquery.Client()
+    client = create_bigquery_client()
     dataset_id = f"{project_id}.{dataset_id}"
 
     # Check if the table already exists
